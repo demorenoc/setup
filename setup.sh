@@ -3,8 +3,8 @@ sudo apt-get update
 sudo apt-get upgrade
 
 # Set the Ubunutu RELEASE and CODENAME 
-CODENAME=$(lsb_release -c | cut -f2)
-RELEASE=$(lsb_release -r | cut -f2)
+CODENAME=$(lsb_release -c -s)
+RELEASE=$(lsb_release -r -s | cut -f1 -d.)
 
 # Add some repos
 
@@ -16,60 +16,74 @@ sudo add-apt-repository "deb http://cran.rstudio.com/bin/linux/ubuntu $CODENAME/
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
 
 ## sublime
-sudo add-apt-repository ppa:webupd8team/sublime-text-2
+sudo add-apt-repository ppa:webupd8team/sublime-text-3
 
 ## Texstudio
-sudo apt-add-repository ppa:blahota/texstudio
+# sudo apt-add-repository ppa:blahota/texstudio
 
 # Update
 sudo apt-get update
 
-
 # Installing everything:
+
+## First things first
+
+### Git
+sudo apt-get install git
+git config --global user.name $(whoami)
+git config --global user.email "jhondoe@nowhere.who"
+
+### vim
+sudo apt-get install vim
+
+### zsh and oh-my-zsh
+sudo apt-get zsh
+chsh -s $(which zsh)
+sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+## To mount and read exfat
+sudo apt-get install exfat-fuse exfat-utils
 
 ## Build tools
 sudo apt-get install build-essential
 
 ## JDK
 sudo apt-get install default-jdk
-echo 'JAVA_HOME="/usr/bin/java"' >> ~/.bashrc
+sed -i '/export PATH=.*$/a\ \ export JAVA_HOME="/usr/bin/java"' ~/.zshrc
 
 # The importatn stuff
 
 ## R
-sudo apt-get install r-base r-base-dev 
+sudo apt-get install r-base r-base-dev
 
 ## Revolution R Open: https://mran.revolutionanalytics.com/documents/rro/installation/#revorinst-lin
-wget https://mran.revolutionanalytics.com/install/RRO-3.2.1-Ubuntu-$RELEASE.x86_64.tar.gz &&
-tar -xzf RRO-3.2.1-Ubuntu-$RELEASE.x86_64.tar.gz &&
-cd RRO-3.2.1 &&
-sudo ./install.sh &&
-cd .. &&
-rm RRO-3.2.1-Ubuntu-$RELEASE.x86_64.tar.gz
+wget https://mran.revolutionanalytics.com/install/RRO-3.2.2-Ubuntu-$RELEASE.4.x86_64.deb
+sudo dpkg -i RRO-3.2.2-Ubuntu-$RELEASE.4.x86_64.deb &&
+rm RRO-3.2.2-Ubuntu-$RELEASE.4.x86_64.deb
 
 ## Math Kernel Library - Enhances RRO
-wget https://mran.revolutionanalytics.com/install/RevoMath-3.2.1.tar.gz &&
-tar -xzf RevoMath-3.2.1.tar.gz &&
+wget https://mran.revolutionanalytics.com/install/RevoMath-3.2.2.tar.gz &&
+tar -xzf RevoMath-3.2.2.tar.gz &&
 cd RevoMath &&
 sudo ./RevoMath.sh &&
 cd .. &&
-rm RevoMath-3.2.1.tar.gz &&
+rm RevoMath-3.2.2.tar.gz &&
 rm -rf RevoMath
-
-## RStudio 
-wget https://s3.amazonaws.com/rstudio-dailybuilds/rstudio-0.99.467-amd64.deb &&
-sudo dpkg -i rstudio-0.99.467-amd64.deb &&
-rm rstudio-0.99.467-amd64.deb
 
 ## Set R alternatives by default CRAN R 
 ## To change then just do:
-# update-alternatives --config R
+# sudo update-alternatives --config R
 sudo update-alternatives --install /usr/bin/R R /usr/lib/R/bin/R 0
-sudo update-alternatives --install /usr/bin/R R /usr/lib64/RRO-3.2.1/R-3.2.1/bin/R -1
+sudo update-alternatives --install /usr/bin/R R /usr/lib64/RRO-3.2.2/R-3.2.2/bin/R -1
+
+## RStudio
+wget https://s3.amazonaws.com/rstudio-dailybuilds/rstudio-0.99.819-amd64.deb &&
+sudo dpkg -i rstudio-0.99.819-amd64.deb &&
+rm rstudio-0.99.819-amd64.deb
 
 ## LaTeX
-sudo apt-get install texlive-full
-sudo apt-get texstudio
+# sudo apt-get install texlive-full
+# sudo apt-get texstudio
 
 ## Pandoc (from source)
 # sudo apt-get install haskell-platform
@@ -85,9 +99,9 @@ sudo ln -s /usr/lib/rstudio/bin/pandoc/pandoc-citeproc /usr/local/bin
 
 ## Python stuff - PyCharm IDE
 cd /opt &&
-sudo wget https://download.jetbrains.com/python/pycharm-community-4.5.3.tar.gz &&
-sudo tar xfz pycharm-community-4.5.3.tar.gz &&
-sudo rm pycharm-community-4.5.3.tar.gz
+sudo wget https://download.jetbrains.com/python/pycharm-community-5.0.2.tar.gz &&
+sudo tar xfz pycharm-community-5.0.2.tar.gz &&
+sudo rm pycharm-community-5.0.2.tar.gz
 
 # To run and configure: /opt/pycharm-community-4.5.3/bin/pycharm.sh
 
@@ -126,17 +140,18 @@ gem install jekyll
 ## Dropbox
 # sudo apt-get install nautilus-dropbox
 
-## sublime and okular (pdf viwer)
-sudo apt-get install sublime-text okular
+## sublime and okular
+sudo apt-get install sublime-text-installer okular
 
 ## Tabula: a program to extract tables from PDFs http://tabula.technology/
 ## https://github.com/tabulapdf/tabula
-cd /opt
-sudo wget https://github.com/tabulapdf/tabula/releases/download/v0.9.7/tabula-jar-0.9.7.zip
-sudo unzip tabula-jar-0.9.7.zip
+# cd /opt
+# sudo wget https://github.com/tabulapdf/tabula/releases/download/v0.9.7/tabula-jar-0.9.7.zip
+# sudo unzip tabula-jar-0.9.7.zip
 
 ## some other stuff 
-sudo apt-get install adobe-flashplugin vlc skype
+sudo apt-get install adobe-flashplugin
+# sudo vlc skype
 
 sudo apt-get update
 sudo apt-get upgrade
