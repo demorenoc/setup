@@ -11,9 +11,9 @@ RELEASE=$(lsb_release -r -s | cut -f1 -d.)
 ## Canonical partners
 sudo sed -i "/^# deb .*partner/ s/^# //" /etc/apt/sources.list
 
-## R - CRAN
-sudo add-apt-repository "deb http://cran.rstudio.com/bin/linux/ubuntu $CODENAME/"
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
+## R - CRAN. See: https://cran.r-project.org/bin/linux/ubuntu/
+sudo add-apt-repository "deb deb https://cloud.r-project.org/bin/linux/ubuntu $CODENAME-cran40/"
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 
 ## sublime
 sudo add-apt-repository ppa:webupd8team/sublime-text-3
@@ -77,9 +77,9 @@ sudo update-alternatives --install /usr/bin/R R /usr/lib/R/bin/R 0
 sudo update-alternatives --install /usr/bin/R R /usr/lib64/RRO-3.2.2/R-3.2.2/bin/R -1
 
 ## RStudio
-wget https://s3.amazonaws.com/rstudio-dailybuilds/rstudio-0.99.819-amd64.deb &&
-sudo dpkg -i rstudio-0.99.819-amd64.deb &&
-rm rstudio-0.99.819-amd64.deb
+wget https://download1.rstudio.org/desktop/bionic/amd64/rstudio-1.3.1093-amd64.deb &&
+sudo dpkg -i rstudio-1.3.1093-amd64.deb &&
+rm rstudio-1.3.1093-amd64.deb
 
 ## LaTeX
 # sudo apt-get install texlive-full
