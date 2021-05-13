@@ -77,9 +77,9 @@ sudo update-alternatives --install /usr/bin/R R /usr/lib/R/bin/R 0
 sudo update-alternatives --install /usr/bin/R R /usr/lib64/RRO-3.2.2/R-3.2.2/bin/R -1
 
 ## RStudio
-wget https://download1.rstudio.org/desktop/bionic/amd64/rstudio-1.3.1093-amd64.deb &&
-sudo dpkg -i rstudio-1.3.1093-amd64.deb &&
-rm rstudio-1.3.1093-amd64.deb
+wget https://download1.rstudio.org/desktop/bionic/amd64/rstudio-1.4.1106-amd64.deb &&
+sudo dpkg -i rstudio-1.4.1106-amd64.deb &&
+rm rstudio-1.4.1106-amd64.deb.deb
 
 ## LaTeX
 # sudo apt-get install texlive-full
